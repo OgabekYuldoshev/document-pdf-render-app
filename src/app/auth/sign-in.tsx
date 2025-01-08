@@ -7,7 +7,9 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2 } from 'lucide-react';
 import React from 'react'
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 import z from "zod"
+import { $login } from './actions';
 
 const loginSchema = z.object({
     username: z.string().min(4),
@@ -23,8 +25,15 @@ export default function SignIn() {
         },
         resolver: zodResolver(loginSchema)
     })
-    function onSubmit(values: FormValue) {
-        console.log(values)
+    async function onSubmit(values: FormValue) {
+        const result = await $login(values)
+
+        if (!result.success) {
+            toast.error(result.error);
+            return;
+        }
+
+        toast.success('Logged in successfully')
     }
     return (
         <Form {...form}>
