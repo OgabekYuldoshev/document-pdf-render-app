@@ -4,6 +4,20 @@ import jwt from "./lib/jwt";
 export async function middleware(request: NextRequest) {
     const accessToken = request.cookies.get("accessToken")
 
+    const isAuthUrl = request.url.endsWith('/auth')
+
+    if (isAuthUrl) {
+        if (accessToken) {
+            const validToken = await jwt.verify(accessToken.value)
+            if (!validToken.success) {
+                request.cookies.delete("accessToken")
+                return NextResponse.next()
+            }
+            return NextResponse.redirect(new URL("/", request.url))
+        }
+        return NextResponse.next()
+    }
+
     if (!accessToken) {
         return NextResponse.redirect(new URL("/auth", request.url))
     }
@@ -11,6 +25,7 @@ export async function middleware(request: NextRequest) {
     const validToken = await jwt.verify(accessToken.value)
 
     if (!validToken.success) {
+        request.cookies.delete("accessToken")
         return NextResponse.redirect(new URL("/auth", request.url))
     }
 
@@ -19,13 +34,6 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
     matcher: [
-        /*
-         * Match all request paths except for the ones starting with:
-         * - api (API routes)
-         * - _next/static (static files)
-         * - _next/image (image optimization files)
-         * - favicon.ico, sitemap.xml, robots.txt (metadata files)
-         */
-        "/((?!auth|api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)",
+        "/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)",
     ],
 };
