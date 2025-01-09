@@ -30,7 +30,7 @@ export const $login = xaction
             throw new Error("username or password is incorrect!")
         }
 
-        const accessToken = jwt.generate({ id: user.id })
+        const accessToken = await jwt.generate({ id: user.id })
 
         cookieStore.set(
             "accessToken",

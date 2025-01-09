@@ -5,7 +5,7 @@ import SignIn from './sign-in'
 
 export default async function Page() {
     const result = await $session()
-    console.log(result)
+
     return (
         <main className='flex w-full min-h-screen flex-col justify-center items-center'>
             <Card className='max-w-[380px] w-full'>

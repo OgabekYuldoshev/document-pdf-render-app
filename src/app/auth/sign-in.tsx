@@ -5,6 +5,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import React from 'react'
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -18,6 +19,7 @@ const loginSchema = z.object({
 
 type FormValue = z.infer<typeof loginSchema>
 export default function SignIn() {
+    const router = useRouter()
     const form = useForm<FormValue>({
         defaultValues: {
             username: '',
@@ -32,7 +34,7 @@ export default function SignIn() {
             toast.error(result.error);
             return;
         }
-
+        router.replace("/")
         toast.success('Logged in successfully')
     }
     return (

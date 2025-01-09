@@ -12,15 +12,15 @@ export const $session = xaction.action(async () => {
     if (!accessToken) {
         throw new Error("Invalid token!")
     }
-    const decodedAccessToken = jwt.verify(accessToken.value) as { id: string }
+    const decodedAccessToken = await jwt.verify(accessToken.value)
 
-    if (!decodedAccessToken.id) {
-        throw new Error("Invalid token!")
+    if (!decodedAccessToken.success) {
+        throw new Error(decodedAccessToken.error)
     }
 
     const user = await prisma.user.findUnique({
         where: {
-            id: decodedAccessToken.id
+            id: decodedAccessToken.data.payload.id
         }
     })
 
