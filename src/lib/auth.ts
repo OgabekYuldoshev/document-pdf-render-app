@@ -1,3 +1,5 @@
+"use server";
+
 import { cookies } from "next/headers";
 import { omit } from "radash";
 
@@ -30,3 +32,12 @@ export const $session = xaction.action(async () => {
 
 	return omit(user, ["password"]);
 });
+
+
+export const $revokeSession = xaction.action(async () => {
+	const cookieStore = await cookies();
+
+	cookieStore.delete("accessToken");
+
+	return "ok";
+})
