@@ -19,7 +19,7 @@ export default async function Header() {
 	];
 
 	return (
-		<nav className="border-b h-16 px-6">
+		<nav className="border-b h-16 px-6 flex-shrink-0">
 			<div className="flex items-center w-full h-full justify-between">
 				<div className="flex items-center">
 					<Link href="/" className="font-bold">
