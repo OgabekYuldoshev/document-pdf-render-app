@@ -1,8 +1,10 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+
 import Header from "@/components/header";
 import { Toaster } from "@/components/ui/sonner";
+import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
+import NextTopLoader from "nextjs-toploader";
 import RootProvider from "./provider";
 
 const geistSans = Geist({
@@ -35,6 +37,7 @@ export default function RootLayout({
 					{children}
 					<Toaster richColors />
 				</RootProvider>
+				<NextTopLoader showSpinner={false} />
 			</body>
 		</html>
 	);
