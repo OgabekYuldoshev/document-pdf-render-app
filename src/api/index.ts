@@ -33,9 +33,10 @@ app.get(
 			throw new HTTPException(404, { message: "Template file not found" });
 		}
 
-		let content = await readFile(templatePath, "utf-8");
+		let templateContent = await readFile(templatePath, "utf-8");
 
-		content = nunjucks.renderString(content, {});
+		templateContent = nunjucks.renderString(templateContent, {});
+
 		await generator.setOptions({
 			displayHeaderFooter: false,
 			scale: 1,
@@ -53,9 +54,9 @@ app.get(
 			],
 			headless: true,
 		});
-		const pdfBuffer = await generator.generate(content);
+		const pdfBuffer = await generator.generate(templateContent);
 
-		return c.body(pdfBuffer, 200, {
+		return c.body(pdfBuffer.buffer, 200, {
 			"Content-Type": "application/pdf",
 		});
 	},

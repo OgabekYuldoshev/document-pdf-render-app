@@ -12,16 +12,24 @@ export default function Editor() {
 	const updateContent = debounce({ delay: 1000 }, send);
 
 	return (
-		<BaseEditor
-			className="border-lg"
-			extensions={[langs.html()]}
-			value={state.content}
-			onChange={(content) =>
-				updateContent({
-					type: "UPDATE_CONTENT",
-					content,
-				})
-			}
-		/>
+		<>
+			<BaseEditor
+				style={{
+					height: "100%",
+				}}
+				height="100%"
+				extensions={[langs.html()]}
+				value={state.content}
+				onChange={(content) =>
+					updateContent({
+						type: "UPDATE_CONTENT",
+						content,
+					})
+				}
+			/>
+			<span className="absolute bottom-1 right-6 text-xs text-foreground/50">
+				HTML
+			</span>
+		</>
 	);
 }

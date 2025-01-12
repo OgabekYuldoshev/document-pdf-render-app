@@ -8,6 +8,7 @@ import { STARTER_KIT_HTML } from "@/constants";
 import { $session } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { xaction } from "@/lib/xaction";
+import matter from "gray-matter";
 import { renderString } from "nunjucks";
 import { z } from "zod";
 
@@ -34,7 +35,9 @@ export const $createTemplate = xaction
 
 		const contentPath = path.join(templatesDir, contentFile);
 
-		const rendredContent = renderString(STARTER_KIT_HTML, { title });
+		let rendredContent = renderString(STARTER_KIT_HTML, { title });
+
+		rendredContent = matter.stringify(rendredContent, { title });
 
 		await writeFile(contentPath, rendredContent);
 
