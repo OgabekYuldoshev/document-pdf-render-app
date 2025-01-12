@@ -1,3 +1,4 @@
+import { EditorView } from "@codemirror/view";
 import { color } from "@uiw/codemirror-extensions-color";
 import { githubDark } from "@uiw/codemirror-theme-github";
 import CodeMirror, {
@@ -12,13 +13,13 @@ export const BaseEditor = React.forwardRef<ReactCodeMirrorRef, BaseEditorProps>(
 	({ extensions = [], ...rest }, ref) => {
 		return (
 			<CodeMirror
+				ref={ref}
+				{...rest}
 				basicSetup={{
 					autocompletion: true,
 				}}
-				ref={ref}
-				{...rest}
 				theme={githubDark}
-				extensions={[color, ...extensions]}
+				extensions={[EditorView.lineWrapping, color, ...extensions]}
 			/>
 		);
 	},

@@ -66,7 +66,31 @@ body {
 	* {
 		@apply border-border;
 	}
+	html {
+		@apply scroll-smooth;
+	}
 	body {
+		overscroll-behavior: contain;
+		-webkit-overflow-scrolling: touch;
 		@apply bg-background text-foreground;
 	}
+}
+
+.cm-scroller::-webkit-scrollbar {
+	width: 4px;
+	height: 4px;
+}
+
+.cm-scroller::-webkit-scrollbar-track {
+	background: rgba(0, 0, 0, 0.1); /* Transparent dark gray background */
+	border-radius: 10px; /* Rounded edges */
+}
+
+.cm-scroller::-webkit-scrollbar-thumb {
+	background: rgba(128, 128, 128, 0.5); /* Semi-transparent gray */
+	border-radius: 10px; /* Rounded edges for thumb */
+}
+
+.cm-scroller::-webkit-scrollbar-thumb:hover {
+	background: rgba(128, 128, 128, 0.7); /* Slightly darker gray on hover */
 }
