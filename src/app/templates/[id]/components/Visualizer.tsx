@@ -1,16 +1,17 @@
 "use client";
 
 import React from "react";
-import { EditorMachineContext } from "../machine";
+import { useSnapshot } from "valtio";
+import { state } from "../state";
 
 export default function Visualizer() {
-	const state = EditorMachineContext.useSelector((state) => state.context);
+	const snap = useSnapshot(state);
 
 	return (
 		<iframe
 			className="w-full h-full bg-white"
 			title="Template"
-			srcDoc={state.content}
+			srcDoc={snap.renderedContent}
 			frameBorder="0"
 		/>
 	);

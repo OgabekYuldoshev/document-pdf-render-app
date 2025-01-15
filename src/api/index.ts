@@ -2,6 +2,7 @@ import { existsSync } from "node:fs";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { zValidator } from "@hono/zod-validator";
+import matter from "gray-matter";
 import { Hono } from "hono";
 import { HTTPException } from "hono/http-exception";
 import nunjucks from "nunjucks";
@@ -33,9 +34,11 @@ app.get(
 			throw new HTTPException(404, { message: "Template file not found" });
 		}
 
-		let templateContent = await readFile(templatePath, "utf-8");
+		const templateContent = await readFile(templatePath, "utf-8");
 
-		templateContent = nunjucks.renderString(templateContent, {});
+		const { content, data } = matter(templateContent);
+
+		const renderedContent = nunjucks.renderString(content, data);
 
 		await generator.setOptions({
 			displayHeaderFooter: false,
@@ -54,7 +57,7 @@ app.get(
 			],
 			headless: true,
 		});
-		const pdfBuffer = await generator.generate(templateContent);
+		const pdfBuffer = await generator.generate(renderedContent);
 
 		return c.body(pdfBuffer.buffer, 200, {
 			"Content-Type": "application/pdf",

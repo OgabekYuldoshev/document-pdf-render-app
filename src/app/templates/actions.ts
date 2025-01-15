@@ -37,7 +37,7 @@ export const $createTemplate = xaction
 
 		let rendredContent = renderString(STARTER_KIT_HTML, { title });
 
-		rendredContent = matter.stringify(rendredContent, { title });
+		rendredContent = matter.stringify(rendredContent, {});
 
 		await writeFile(contentPath, rendredContent);
 
